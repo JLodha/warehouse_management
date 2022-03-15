@@ -37,31 +37,6 @@ const managerRegister = async (req, res) => {
     manager.password =await bcrypt.hash(givenPassword, salt);
     manager.save();
     console.log("success");
-    // try {
-    //     var created_date_time = manager.creation_date;
-    //     var current_date_time = manager.last_login_date;
-
-    //     current_date_time = currDateTime(currentTime);
-    //     if(!created_date_time) {
-    //         created_date_time = currDateTime(currentTime);
-    //     }
-        
-    //     const log = new Log({
-    //         createdAt: current_date_time,
-    //         action: "Successfully Registered "+ manager.username,
-    //         role: "Manager" 
-    //     });
-
-    //     log.save(function(err){
-    //         if(err){
-    //             console.log(err);
-    //         } else {
-    //             // console.log("Updated Logs");
-    //         }
-    //     });
-    // } catch(err) {
-    //     res.status(400).json(err);
-    // }
 };
 const managerLogin =async (req, res)=> {
     const inputemail=req.body.email2;
@@ -108,4 +83,58 @@ const managerCreateItem = async(req, res)=>{
     console.log("Item created");
 };
 
-module.exports = {managerRegister, managerLogin, managerCreateItem} ;
+const managerAddItem = async(req,res)=>{
+    const name = req.body.name;
+    const quantity = req.body.quantity;
+    const itemExist = await Item.findOne({name: name});
+    console.log(itemExist);
+    var val = itemExist.quantity;
+    console.log(val);
+    val = val + quantity;
+    console.log(quantity);
+    console.log(val);
+    if(!itemExist) return res.status(400).json('Item doesnot exist');
+    Item.updateOne({name:name}, {  quantity: val }, function(err1, res1) {
+        // console.log(this);
+        if (err1) throw err1;
+        console.log(" document(s) updated");
+    });
+}
+
+const managerUpdateItem = async(req,res)=>{
+    // pass object in the frontend and write the intial values in the placeholder
+    const name = req.body.name;
+    const quantity = req.body.quantity;
+    const price = req.body.price;
+    const volume = req.body.volume;
+    const category = req.body.category;
+    const itemExist = await Item.findOne({name: name});
+    if(!itemExist) return res.status(400).json('Item doesnot exist'); //[{1:2}, {3:4}]
+    // for(var i = 0; i < arr.length; i++){
+    //     const field = arr[0]
+    // }
+    Item.updateOne({name:name}, {price:price , volume:volume,category:category,  quantity: quantity }, function(err1, res1) {
+        // console.log(this);
+        if (err1) throw err1;
+        console.log(" document(s) updated");
+    });
+}
+
+const managerViewItem = async(req,res)=>{
+    Item.find({},function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        //render the result to the ejs
+      });
+}
+
+// console.log(managerUpdateItem);
+
+module.exports = {
+    managerRegister, 
+    managerLogin, 
+    managerCreateItem, 
+    managerAddItem,
+    managerUpdateItem,
+    managerViewItem
+} ;
