@@ -123,7 +123,8 @@ const managerUpdateItem = async(req,res)=>{
 const managerViewItem = async(req,res)=>{
     Item.find({},function(err, result) {
         if (err) throw err;
-        console.log(result);
+        // console.log(result);
+        res.send(result);
         //render the result to the ejs
       });
 }
