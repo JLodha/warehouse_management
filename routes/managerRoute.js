@@ -1,6 +1,6 @@
 const managerRoute = require('express').Router();
 const  manager_verify = require('../controllers/verifyToken');
-const  {managerRegister,managerLogin} = require('../controllers/managerController');
+const  {managerRegister,managerLogin,managerCreateItem} = require('../controllers/managerController');
 const Manager = require("../model/Manager");
 const { func } = require('joi');
 
@@ -13,4 +13,11 @@ managerRoute.get('/login',function (req, res) {
 managerRoute.post('/register',managerRegister);
 
 managerRoute.post('/login',managerLogin);
+
+managerRoute.get('/createItem', function(req,res){
+    res.render("createItem");
+});
+
+managerRoute.post('/createItem', managerCreateItem);
+
 module.exports = managerRoute;

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Manager = require("../model/Manager");
+const Item = require("../model/Item");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { managerRegisterValid, managerLoginValid } = require("./validation");
@@ -65,6 +66,10 @@ const managerRegister = async (req, res) => {
 const managerLogin =async (req, res)=> {
     const inputemail=req.body.email2;
     const password=req.body.password2;
+    const {error} = await managerLoginValid(req.body);
+    console.log(error);
+    if (error) return res.status(400).json(error.details[0].message);
+
     console.log(inputemail);
     console.log(password);
     const manager = await Manager.findOne({email:inputemail});
@@ -88,20 +93,19 @@ const managerLogin =async (req, res)=> {
         res.status(400).json("Invalid Credentials!");
     }});
 };
-//  function myfunction()
-//     {
-//         promise = longfunctionfirst().then(shortfunctionsecond);
-//     }
-//     function longfunctionfirst()
-//     {
-//         d = new $.Deferred();
-//         setTimeout('alert("first function finished");d.resolve()',3000);
-//         return d.promise()
-//     }
-//     function shortfunctionsecond()
-//     {
-//         d = new $.Deferred();
-//         setTimeout('alert("second function finished");d.resolve()',200);
-//         return d.promise()
-//     }
-module.exports = {managerRegister, managerLogin} ;
+const managerCreateItem = async(req, res)=>{
+    //body will contain all the details of the item --> name, price, volume, category in the form of req.body
+    const name = req.body.name;
+    const price = req.body.price;
+    const volume = req.body.volume;
+    const category = req.body.category;
+    console.log(req);
+    const itemExist = await Item.findOne({ name: name});
+    if(itemExist) return res.status(400).json('Item already exists');
+    const item = new Item({name:name, price:price, volume:volume, category:category, quantity:0});
+    item.save();
+    console.log(item);
+    console.log("Item created");
+};
+
+module.exports = {managerRegister, managerLogin, managerCreateItem} ;
