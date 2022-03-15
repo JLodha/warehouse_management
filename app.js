@@ -15,6 +15,7 @@ dotenv.config();
 const app = express();
 app.set('view engine', 'ejs');
 
+app.use(express.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -27,7 +28,6 @@ mongoose.connect(
 ); 
 
 
-app.use(express.json());
 app.use("/admin",adminAuth);
 app.use("/manager",managerAuth);
 

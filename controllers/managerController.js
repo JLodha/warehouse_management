@@ -23,7 +23,7 @@ const managerRegister = async (req, res) => {
     let givenPassword = req.body.password;
     
     // validation
-    const {error} = managerRegisterValid(req.body);
+    const {error} = await managerRegisterValid(req.body);
     if (error) return res.status(400).json(error.details[0].message);
     
     // check whether user already in database or not
@@ -33,7 +33,7 @@ const managerRegister = async (req, res) => {
 
     // hash password
     const salt = await bcrypt.genSalt(10);
-    manager.password = await bcrypt.hash(givenPassword, salt);
+    manager.password =await bcrypt.hash(givenPassword, salt);
     manager.save();
     console.log("success");
     // try {
@@ -62,5 +62,46 @@ const managerRegister = async (req, res) => {
     //     res.status(400).json(err);
     // }
 };
-
-module.exports = managerRegister ;
+const managerLogin =async (req, res)=> {
+    const inputemail=req.body.email2;
+    const password=req.body.password2;
+    console.log(inputemail);
+    console.log(password);
+    const manager = await Manager.findOne({email:inputemail});
+    console.log(manager);
+    bcrypt.compare(password, manager.password,async function(err,req1,res1){
+    if(!err)
+    {
+     
+        const managerToken = jwt.sign({
+            _id: password
+          },
+          process.env.TOKEN_SECRET
+        );
+        // res.header('auth-token', managerToken).json(managerToken);
+        // res.render("manager");
+          res.render("manager",{token:managerToken});
+    }
+    else
+    {
+        console.log("Not done");
+        res.status(400).json("Invalid Credentials!");
+    }});
+};
+//  function myfunction()
+//     {
+//         promise = longfunctionfirst().then(shortfunctionsecond);
+//     }
+//     function longfunctionfirst()
+//     {
+//         d = new $.Deferred();
+//         setTimeout('alert("first function finished");d.resolve()',3000);
+//         return d.promise()
+//     }
+//     function shortfunctionsecond()
+//     {
+//         d = new $.Deferred();
+//         setTimeout('alert("second function finished");d.resolve()',200);
+//         return d.promise()
+//     }
+module.exports = {managerRegister, managerLogin} ;
