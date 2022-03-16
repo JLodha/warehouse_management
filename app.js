@@ -6,8 +6,8 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 //const passport = require("passport");
 //const passportLocalMongoose = require("passport-local-mongoose");
-const adminAuth=require('./routes/adminRoute');
-const managerAuth=require('./routes/managerRoute');
+const adminAuth = require('./routes/adminRoute');
+const managerAuth = require('./routes/managerRoute');
 // const user = require('./models/user');
 
 dotenv.config();
@@ -20,16 +20,26 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(express.static("public"));
+app.use(session({
+    secret: '123456cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 864000
+    }
+}))
 //connecting db
 mongoose.connect(
-    process.env.DB_CONNECT,
-    { useUnifiedTopology: true, useNewUrlParser: true },
+    process.env.DB_CONNECT, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true
+    },
     () => console.log("Connected to MongoDB")
-); 
+);
 
 
-app.use("/admin",adminAuth);
-app.use("/manager",managerAuth);
+app.use("/admin", adminAuth);
+app.use("/manager", managerAuth);
 
 
 
