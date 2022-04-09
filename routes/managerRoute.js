@@ -6,7 +6,8 @@ const {
     managerCreateItem,
     managerAddItem,
     managerUpdateItem,
-    managerViewItem
+    managerViewItem,
+    managerUpdateItemsGet
 } = require('../controllers/managerController');
 const Manager = require("../model/Manager");
 const {
@@ -44,12 +45,12 @@ managerRoute.get('/addItem', function (req, res) {
     res.render("signup");
 });
 
-managerRoute.get('/updateItem', function (req, res) {
-    if (req.session.isManager) {
-        return res.render("updateItem");
-    }
-    res.render("signup");
-});
+// managerRoute.get('/updateItem', function (req, res) {
+//     if (req.session.isManager) {
+//         return res.render("updateItem");
+//     }
+//     res.render("signup");
+// });
 
 managerRoute.post('/createItem', managerCreateItem);
 
@@ -60,5 +61,5 @@ managerRoute.get('/viewItems', managerViewItem);
 // console.log(managerCreateItem);
 // console.log(managerUpdateItem);
 managerRoute.post('/updateItem', managerUpdateItem);
-
+managerRoute.get('/updateItem', managerUpdateItemsGet);
 module.exports = managerRoute;

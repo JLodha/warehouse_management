@@ -1,4 +1,61 @@
-<!DOCTYPE html>
+<div class="navbar-default sidebar" role="navigation">
+  <div class="sidebar-nav navbar-collapse">
+    <ul class="nav" id="side-menu">
+      <!-- <li class="sidebar-search">
+        <div class="input-group custom-search-form">
+          <input class="form-control" type="text" placeholder="Search..."/><span class="input-group-btn">
+            <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
+        </div> -->
+        <!-- /input-group-->
+      <!-- </li> -->
+      <li><a href="/manager/login"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
+      <li><a href="/manager/createItem"><i class="fa fa-table fa-fw"></i> Create Item</a></li>
+        <!-- <ul class="nav nav-second-level">
+          <li><a href="flot.html">Flot Charts</a></li>
+          <li><a href="morris.html">Morris.js Charts</a></li>
+        </ul> -->
+        <!-- /.nav-second-level-->
+      
+      <li><a href="/manager/addItem"><i class="fa fa-table fa-fw"></i> Add Item</a></li>
+      <li><a href="/manager/updateItem"><i class="fa fa-edit fa-fw"></i> Update Item</a></li>
+      <li><a href="/manager/viewItem"><i class="fa fa-table fa-fw"></i> View Item</a>
+        <!-- <ul class="nav nav-second-level">
+          <li><a href="panels-wells.html">Panels and Wells</a></li>
+          <li><a href="buttons.html">Buttons</a></li>
+          <li><a href="notifications.html">Notifications</a></li>
+          <li><a href="typography.html">Typography</a></li>
+          <li><a href="icons.html"> Icons</a></li>
+          <li><a href="grid.html">Grid</a></li>
+        </ul> -->
+        <!-- /.nav-second-level-->
+      </li>
+      <li><a href="index.html"><i class="fa fa-sitemap fa-fw"></i> Logout</a>
+        <!-- <ul class="nav nav-second-level">
+          <li><a href="#">Second Level Item</a></li>
+          <li><a href="#">Second Level Item</a></li>
+          <li><a href="#">Third Level <span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level">
+              <li><a href="#">Third Level Item</a></li>
+              <li><a href="#">Third Level Item</a></li>
+              <li><a href="#">Third Level Item</a></li>
+              <li><a href="#">Third Level Item</a></li>
+            </ul> -->
+            <!-- /.nav-third-level-->
+          <!-- </li>
+        </ul> -->
+        <!-- /.nav-second-level-->
+      </li>
+      <!-- <li><a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level">
+          <li><a href="blank.html">Blank Page</a></li>
+          <li><a href="login.html">Login Page</a></li>
+        </ul> -->
+        <!-- /.nav-second-level-->
+      <!-- </li> -->
+    </ul>
+  </div>
+  <!-- /.sidebar-collapse-->
+</div><!DOCTYPE html>
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
@@ -172,47 +229,88 @@
     <div class="form_wrapper">
       <div class="form_container">
         <div class="title_container">
-          <h2>Update Item Form</h2>
+        <h2>Update Item Form</h2>
+
         </div>
         <div class="row clearfix">
           <div class="">
-            <form method = "post" action = "/manager/createItem">
-              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
-                <input type="text" name="name" placeholder="Name of Item" required />
-              </div>
-              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-money"></i></span>
-                <input type="text" name="price" placeholder="Price" required />
-              </div>
-              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-plus-square-o"></i></span>
-                <input type="text" name="volume" placeholder="Volume" required />
-              </div>
-              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-folder-open-o"></i></span>
-                <input type="text" name="category" placeholder="Category" required />
-              </div>
-                  <!-- <div class="input_field radio_option">
-                  <input type="radio" name="radiogroup1" id="rd1">
-                  <label for="rd1">Male</label>
-                  <input type="radio" name="radiogroup1" id="rd2">
-                  <label for="rd2">Female</label>
+            <% if( type ===0) { %>
+              <form method = "post" action = "/manager/createItem">
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+
+                  <input type="text" name="name" placeholder="Name of Item" required />
+                  <input list="browsers" name="browser" id="browser">
+
+                  <datalist id = "browsers">
+                    <% for (var i=0; i < allItems.length; i++){ %>
+                      <option value  = <%=allItems[i].name%>>
+                    <%}%>
+                  </datalist>
+
+                  <label for="browser">Choose your browser from the list:</label>
+                  <input list="browsers" name="browser" id="browser">
+                  
+                  <datalist id="browsers">
+                    <option id="Edge">
+                    <option value="Firefox">
+                    <option value="Chrome">
+                    <option value="Opera">
+                    <option value="Safari">
+                  </datalist>
+                  <div>
+                    <input type="text" id="txtAutoComplete" list="names" />
+                    <!--your input textbox-->
+                    <datalist id="names">
+                        <% for(var i=0;i< 5; i++){%>
+                        <option >
+                            hii
+                        </option>
+                        <%}%>
+                    </datalist>
+                </div>
+                </div>
+                <input class="button" type="submit" value="Register" />
+              </form>
+            <% }else{ %>
+              <form method = "post" action = "/manager/createItem">
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                  <input type="text" name="name" placeholder="Name of Item" required />
+                </div>
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-money"></i></span>
+                  <input type="text" name="price" placeholder="Price" required />
+                </div>
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-plus-square-o"></i></span>
+                  <input type="text" name="volume" placeholder="Volume" required />
+                </div>
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-folder-open-o"></i></span>
+                  <input type="text" name="category" placeholder="Category" required />
+                </div>
+                    <!-- <div class="input_field radio_option">
+                    <input type="radio" name="radiogroup1" id="rd1">
+                    <label for="rd1">Male</label>
+                    <input type="radio" name="radiogroup1" id="rd2">
+                    <label for="rd2">Female</label>
+                    </div> -->
+                    <!-- <div class="input_field select_option">
+                      <select>
+                        <option>Select a country</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                      </select>
+                      <div class="select_arrow"></div>
+                    </div> -->
+                  <!-- <div class="input_field checkbox_option">
+                    <input type="checkbox" id="cb1">
+                <label for="cb1">I agree with terms and conditions</label>
                   </div> -->
-                  <!-- <div class="input_field select_option">
-                    <select>
-                      <option>Select a country</option>
-                      <option>Option 1</option>
-                      <option>Option 2</option>
-                    </select>
-                    <div class="select_arrow"></div>
+                  <!-- <div class="input_field checkbox_option">
+                    <input type="checkbox" id="cb2">
+                <label for="cb2">I want to receive the newsletter</label>
                   </div> -->
-                <!-- <div class="input_field checkbox_option">
-                  <input type="checkbox" id="cb1">
-              <label for="cb1">I agree with terms and conditions</label>
-                </div> -->
-                <!-- <div class="input_field checkbox_option">
-                  <input type="checkbox" id="cb2">
-              <label for="cb2">I want to receive the newsletter</label>
-                </div> -->
-              <input class="button" type="submit" value="Register" />
-            </form>
+                <input class="button" type="submit" value="Register" />
+              </form>
+            <% } %>
+            
           </div>
         </div>
       </div>

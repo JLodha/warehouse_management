@@ -154,6 +154,9 @@ const managerUpdateItem = async (req, res) => {
     // });
     const name = req.body.name;
     const quantity = req.body.quantity;
+    if(quantity == null){
+
+    }
     const price = req.body.price;
     const volume = req.body.volume;
     const category = req.body.category;
@@ -178,6 +181,21 @@ const managerUpdateItem = async (req, res) => {
     });
 }
 
+const managerUpdateItemsGet = async (req, res) => {
+    if (! req.session.isManager) {
+        return res.render("signup");
+    }
+    var allItems= [];
+    Item.find({}, function(err, items){
+        allItems = items;
+        console.log(allItems);
+    })
+    return res.render("updateItem", {
+        type:0,
+        allItems : allItems       
+    });
+}
+
 const managerViewItem = async (req, res) => {
     Item.find({}, function (err, result) {
         if (err) throw err;
@@ -195,5 +213,6 @@ module.exports = {
     managerCreateItem,
     managerAddItem,
     managerUpdateItem,
-    managerViewItem
+    managerViewItem,
+    managerUpdateItemsGet
 };
