@@ -15,13 +15,13 @@ const {
 
 managerRoute.get('/register', (req, res) => {
     if (req.session.isManager) {
-        return res.render("manager");
+        return res.render("dashboard");
     }
     res.render("signup");
 })
 managerRoute.get('/login', function (req, res) {
     if (req.session.isManager) {
-        return res.render("manager");
+        return res.render("dashboard");
     }
     res.render("signup");
 })
@@ -31,7 +31,24 @@ managerRoute.post('/register', managerRegister);
 managerRoute.post('/login', managerLogin);
 
 managerRoute.get('/createItem', function (req, res) {
-    res.render("createItem");
+    if (req.session.isManager) {
+        return res.render("createItem");
+    }
+    res.render("signup");
+});
+
+managerRoute.get('/addItem', function (req, res) {
+    if (req.session.isManager) {
+        return res.render("addItem");
+    }
+    res.render("signup");
+});
+
+managerRoute.get('/updateItem', function (req, res) {
+    if (req.session.isManager) {
+        return res.render("updateItem");
+    }
+    res.render("signup");
 });
 
 managerRoute.post('/createItem', managerCreateItem);

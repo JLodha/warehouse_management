@@ -48,12 +48,12 @@ const managerRegister = async (req, res) => {
     console.log("success");
     req.session.isManager = true;
     req.session.email = givenEmail;
-    return res.render("manager");
+    return res.render("dashboard");
 };
 const managerLogin = async (req, res) => {
     console.log(req.session.isManager);
     if (req.session.isManager) {
-        return res.render("manager");
+        return res.render("dashboard");
     }
     console.log("HELLO");
     const inputemail = req.body.email2;
@@ -85,7 +85,7 @@ const managerLogin = async (req, res) => {
             req.session.email = inputemail;
             console.log(req.session);
             // res.render("manager",{token:managerToken});
-            return res.render("manager");
+            return res.render("dashboard");
         } else {
             console.log("Not done");
             res.status(400).json("Invalid Credentials!");
@@ -113,6 +113,7 @@ const managerCreateItem = async (req, res) => {
     item.save();
     console.log(item);
     console.log("Item created");
+    res.redirect("createItem");
 };
 
 const managerAddItem = async (req, res) => {
@@ -122,12 +123,12 @@ const managerAddItem = async (req, res) => {
         name: name
     });
     console.log(itemExist);
+    if (!itemExist) return res.status(400).json('Item doesnot exist');
     var val = itemExist.quantity;
     console.log(val);
     val = val + quantity;
     console.log(quantity);
     console.log(val);
-    if (!itemExist) return res.status(400).json('Item doesnot exist');
     Item.updateOne({
         name: name
     }, {
@@ -136,11 +137,21 @@ const managerAddItem = async (req, res) => {
         // console.log(this);
         if (err1) throw err1;
         console.log(" document(s) updated");
+        res.redirect("addItem");
     });
 }
 
 const managerUpdateItem = async (req, res) => {
     // pass object in the frontend and write the intial values in the placeholder
+    // $(document).ready(function(){
+    //     $(".id").keyup(function(){
+    //         // Getting the current value of textarea
+    //         var currentText = $(this).val();
+            
+    //         // Setting the Div content
+    //         $(".price").text(currentText);
+    //     });
+    // });
     const name = req.body.name;
     const quantity = req.body.quantity;
     const price = req.body.price;
